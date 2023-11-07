@@ -11,3 +11,8 @@ class EmployeeSerializer(ModelSerializer):
             'email': {'required': True},
             'department': {'required': True}
         }
+
+    def to_internal_value(self, data):
+        new_data = data.copy()
+        new_data['department'] = self.context.request.user.department_id
+        return super().to_internal_value(new_data)
